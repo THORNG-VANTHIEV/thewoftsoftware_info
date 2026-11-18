@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="km">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1200, initial-scale=1" />
+  <style>
+    @font-face { font-family: Kantumruy; src: url('../public/fonts/KantumruyPro-Medium.ttf'); font-weight: 500; }
+    @font-face { font-family: Kantumruy; src: url('../public/fonts/KantumruyPro-Bold.ttf'); font-weight: 700; }
+    * { box-sizing: border-box; }
+    html, body { width: 1200px; height: 630px; margin: 0; overflow: hidden; }
+    body { font-family: Kantumruy, sans-serif; color: #fff; background: #073f47; }
+    .frame { position: relative; width: 1200px; height: 630px; padding: 45px 55px 38px; overflow: hidden; background: radial-gradient(circle at 78% 38%, #17656b 0, transparent 43%), linear-gradient(135deg, #06353d, #074650 70%, #0b3a43); }
+    .grid { position: absolute; inset: 0; opacity: .19; background-image: linear-gradient(#b9e26424 1px, transparent 1px), linear-gradient(90deg, #b9e26424 1px, transparent 1px); background-size: 76px 76px; mask-image: linear-gradient(90deg, transparent 25%, #000); }
+    .ring { position: absolute; width: 620px; height: 620px; right: -92px; top: 72px; border: 1px solid #b1ded32c; border-radius: 50%; box-shadow: 0 0 0 95px #ffffff03; }
+    .header { position: relative; z-index: 2; display: flex; align-items: center; gap: 14px; }
+    .mark { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 12px; background: #b9e264; color: #073f47; font: 700 29px Kantumruy; letter-spacing: -3px; }
+    .brand { font-size: 28px; font-weight: 700; letter-spacing: -.9px; line-height: 1; }
+    .brand b { color: #b9e264; }
+    .brand small { display: block; margin-top: 8px; color: #9ec9c6; font-size: 10px; letter-spacing: 3.2px; }
+    .body { position: relative; z-index: 2; display: grid; grid-template-columns: 510px 1fr; align-items: center; height: 456px; gap: 28px; }
+    .copy { align-self: center; padding-bottom: 6px; }
+    .kicker { display: flex; align-items: center; gap: 10px; color: #9fdbd2; font-size: 12px; font-weight: 700; letter-spacing: 2.5px; }
+    .kicker:before { content: ''; width: 25px; height: 2px; background: #b9e264; }
+    h1 { margin: 21px 0 18px; font-size: 58px; line-height: 1.38; letter-spacing: -2.6px; font-weight: 700; }
+    h1 em { display: block; color: #b9e264; font-style: normal; }
+    .copy p { max-width: 480px; margin: 0; color: #c8e0dc; font-size: 18px; line-height: 1.75; }
+    .chips { display: flex; gap: 9px; margin-top: 29px; }
+    .chips span { padding: 9px 13px; border: 1px solid #84b4aa7b; border-radius: 999px; color: #d5e8dc; font-size: 12px; font-weight: 700; }
+    .visual { position: relative; height: 404px; display: flex; align-items: center; justify-content: center; }
+    .browser { width: 510px; height: 350px; overflow: hidden; border: 7px solid #f9fcf7; border-radius: 19px; background: #f9fcf7; box-shadow: 0 27px 65px #001f29a8; transform: rotate(-4deg) translate(16px, 8px); }
+    .browser-top { display: flex; align-items: center; justify-content: space-between; height: 33px; padding: 0 12px; color: #7d9a9a; font-size: 10px; letter-spacing: 1px; }
+    .dots { display: flex; gap: 5px; }.dots i { display: block; width: 7px; height: 7px; border-radius: 50%; background: #a4c2bd; }.dots i:first-child { background: #e9aa9d; }.dots i:nth-child(2) { background: #e8cf8e; }
+    .screens { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; padding: 7px 11px 11px; }
+    .screen { overflow: hidden; border: 1px solid #d6e5dc; border-radius: 9px; background: #fff; }
+    .screen img { display: block; width: 100%; height: 240px; object-fit: cover; object-position: top left; }
+    .screen span { display: block; padding: 9px 10px; color: #17474d; font-size: 12px; font-weight: 700; letter-spacing: .4px; }
+    .float { position: absolute; right: -11px; bottom: 5px; display: flex; align-items: center; gap: 9px; padding: 11px 14px; border-radius: 10px; background: #b9e264; color: #11494c; font-size: 13px; font-weight: 700; box-shadow: 0 14px 35px #001f2773; transform: rotate(4deg); }
+    .float i { width: 8px; height: 8px; border-radius: 50%; background: #1b776e; }
+    .footer { position: relative; z-index: 2; display: flex; justify-content: space-between; padding-top: 16px; border-top: 1px solid #96c4b846; color: #9fc4c0; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; }
+    .footer span:last-child { color: #b9e264; }
+    .project .body { grid-template-columns: 450px 1fr; gap: 38px; }
+    .project h1 { font-size: 55px; line-height: 1.15; letter-spacing: -1.9px; overflow-wrap: anywhere; }
+    .project h1 em { margin-top: 8px; font-size: 30px; letter-spacing: 0; }
+    .project .copy p { font-size: 18px; }
+    .project .browser { width: 590px; height: 390px; transform: rotate(-3deg) translate(28px, 5px); }
+    .project .screen-single { display: block; width: 100%; height: 341px; object-fit: cover; object-position: top left; }
+    .project .float { right: -15px; bottom: -3px; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="grid"></div><div class="ring"></div>
+    <div class="header"><div class="mark">W.</div><div class="brand">THE <b>WOFT</b><small>SOFTWARE & DIGITAL SOLUTIONS</small></div></div>
+    <div class="body">
+      <div class="copy">
+        <div class="kicker" id="kicker">SOFTWARE DEVELOPMENT · DIGITAL SOLUTIONS</div>
+        <h1 id="headline">បង្កើតប្រព័ន្ធឌីជីថល<em>សម្រាប់អាជីវកម្មអ្នក</em></h1>
+        <p id="description">គម្រោងកម្មវិធីដែលគិតពីរបៀបធ្វើការរបស់អ្នក និងបទពិសោធន៍អ្នកប្រើប្រាស់។</p>
+        <div class="chips" id="chips"><span>Offline systems</span><span>Online systems</span><span>QR menus</span></div>
+      </div>
+      <div class="visual">
+        <div class="browser">
+          <div class="browser-top"><div class="dots"><i></i><i></i><i></i></div><span id="browser-label">SELECTED WORK · THE WOFT</span><span>●</span></div>
+          <div class="screens" id="screens"><div class="screen"><img src="../public/projects/lotcha-screen.webp" alt=""><span>LOTCHA SIEMREAP 1991</span></div><div class="screen"><img src="../public/projects/snaca-screen.webp" alt=""><span>SNACA CAFE</span></div></div>
+        </div>
+        <div class="float"><i></i><span id="float-text">IDEA → DESIGN → DELIVERY</span></div>
+      </div>
+    </div>
+    <div class="footer"><span>THE WOFT · DEVELOP · INNOVATE · DELIVER</span><span>THORNG-VANTHIEV.GITHUB.IO/THEWOFTSOFTWARE_INFO</span></div>
+  </div>
+  <script>
+    const projects = {
+      snaca: { title: 'SNACA CAFE', subtitle: 'Digital café menu', description: 'ម៉ឺនុយកាហ្វេឌីជីថល ដែលអាចមើលលើទូរស័ព្ទ ជាភាសាខ្មែរ និងអង់គ្លេស។', image: '../public/projects/snaca-screen.webp' },
+      lotcha: { title: 'LOTCHA SIEMREAP 1991', subtitle: 'Restaurant digital menu', description: 'ម៉ឺនុយអាហារដែលមានការស្វែងរក ចំណូលចិត្ត និងសេចក្តីសង្ខេបការកម្ម៉ង់។', image: '../public/projects/lotcha-screen.webp' },
+    };
+    const project = projects[new URLSearchParams(location.search).get('project')];
+    if (project) {
+      document.body.classList.add('project');
+      document.getElementById('kicker').textContent = 'SELECTED WORK · DIGITAL MENU';
+      document.getElementById('headline').innerHTML = `${project.title}<em>${project.subtitle}</em>`;
+      document.getElementById('description').textContent = project.description;
+      document.getElementById('chips').remove();
+      document.getElementById('browser-label').textContent = project.title;
+      document.getElementById('screens').outerHTML = `<img class="screen-single" src="${project.image}" alt="">`;
+      document.getElementById('float-text').textContent = 'VIEW THE LIVE SAMPLE ↗';
+    }
+  </script>
+</body>
+</html>

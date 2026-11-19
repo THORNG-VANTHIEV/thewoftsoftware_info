@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, Clipboard, Code2, Database, ExternalLink, Globe2, Layers3, Menu, QrCode, Send, Sparkles, X } from 'lucide-react';
 import { projects, services, type Project } from './data';
@@ -21,6 +21,44 @@ function ScrollManager() {
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
+  const lastMenuLinkRef = useRef<HTMLAnchorElement>(null);
+  useEffect(() => {
+    if (!open) return;
+
+    document.documentElement.classList.add('mobile-menu-open');
+    document.body.classList.add('mobile-menu-open');
+    firstMenuLinkRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      } else if (event.key === 'Tab') {
+        if (event.shiftKey && document.activeElement === firstMenuLinkRef.current) {
+          event.preventDefault();
+          menuButtonRef.current?.focus();
+        } else if (!event.shiftKey && document.activeElement === menuButtonRef.current) {
+          event.preventDefault();
+          firstMenuLinkRef.current?.focus();
+        } else if (!event.shiftKey && document.activeElement === lastMenuLinkRef.current) {
+          event.preventDefault();
+          menuButtonRef.current?.focus();
+        }
+      }
+    };
+    const desktop = window.matchMedia('(min-width: 901px)');
+    const onDesktop = () => { if (desktop.matches) setOpen(false); };
+    window.addEventListener('keydown', onKeyDown);
+    desktop.addEventListener('change', onDesktop);
+    return () => {
+      document.documentElement.classList.remove('mobile-menu-open');
+      document.body.classList.remove('mobile-menu-open');
+      window.removeEventListener('keydown', onKeyDown);
+      desktop.removeEventListener('change', onDesktop);
+    };
+  }, [open]);
   const nav = [
     ['#services', 'សេវាកម្ម'],
     ['#work', 'គំរូកម្មវិធី'],
@@ -34,13 +72,14 @@ function Header() {
           <span className="brand-mark"><Code2 size={19} strokeWidth={2.3} /></span>
           <span>THE <strong>WOFT</strong><small>SOFTWARE & DIGITAL</small></span>
         </Link>
-        <nav className={open ? 'nav-links is-open' : 'nav-links'} aria-label="Main navigation">
-          {nav.map(([href, label]) => <Link key={href} to={`/${href}`} onClick={() => setOpen(false)}>{label}</Link>)}
-          <Link className="mobile-contact" to="/#contact" onClick={() => setOpen(false)}>ពិភាក្សាគម្រោង <ArrowUpRight size={17} /></Link>
+        <nav id="mobile-navigation" className={open ? 'nav-links is-open' : 'nav-links'} aria-label="Main navigation">
+          {nav.map(([href, label], index) => <Link key={href} ref={index === 0 ? firstMenuLinkRef : undefined} to={`/${href}`} onClick={() => setOpen(false)}>{label}</Link>)}
+          <Link ref={lastMenuLinkRef} className="mobile-contact" to="/#contact" onClick={() => setOpen(false)}>ពិភាក្សាគម្រោង <ArrowUpRight size={17} /></Link>
         </nav>
         <Link className="button button-small button-outline header-cta" to="/#contact">ពិភាក្សាគម្រោង <ArrowUpRight size={17} /></Link>
-        <button className="menu-toggle" type="button" aria-label={open ? 'បិទម៉ឺនុយ' : 'បើកម៉ឺនុយ'} aria-expanded={open} onClick={() => setOpen(v => !v)}>{open ? <X size={24} /> : <Menu size={24} />}</button>
+        <button ref={menuButtonRef} className="menu-toggle" type="button" aria-label={open ? 'បិទម៉ឺនុយ' : 'បើកម៉ឺនុយ'} aria-controls="mobile-navigation" aria-expanded={open} onClick={() => setOpen(v => !v)}>{open ? <X size={24} /> : <Menu size={24} />}</button>
       </div>
+      {open && <button className="nav-backdrop" type="button" tabIndex={-1} aria-label="បិទម៉ឺនុយ" onClick={() => { setOpen(false); menuButtonRef.current?.focus(); }} />}
     </header>
   );
 }

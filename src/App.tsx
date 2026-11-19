@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, Clipboard, Code2, Database, ExternalLink, Globe2, Layers3, Menu, QrCode, Send, Sparkles, X } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, Clipboard, Code2, Database, ExternalLink, Globe2, Grid2X2, House, Layers3, Menu, QrCode, Send, Sparkles, X } from 'lucide-react';
 import { projects, services, type Project } from './data';
 import { publicAsset } from './paths';
 
@@ -29,22 +29,22 @@ function Header() {
 
     document.documentElement.classList.add('mobile-menu-open');
     document.body.classList.add('mobile-menu-open');
-    firstMenuLinkRef.current?.focus();
+    firstMenuLinkRef.current?.focus({ preventScroll: true });
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false);
-        menuButtonRef.current?.focus();
+        menuButtonRef.current?.focus({ preventScroll: true });
       } else if (event.key === 'Tab') {
         if (event.shiftKey && document.activeElement === firstMenuLinkRef.current) {
           event.preventDefault();
-          menuButtonRef.current?.focus();
+          menuButtonRef.current?.focus({ preventScroll: true });
         } else if (!event.shiftKey && document.activeElement === menuButtonRef.current) {
           event.preventDefault();
-          firstMenuLinkRef.current?.focus();
+          firstMenuLinkRef.current?.focus({ preventScroll: true });
         } else if (!event.shiftKey && document.activeElement === lastMenuLinkRef.current) {
           event.preventDefault();
-          menuButtonRef.current?.focus();
+          menuButtonRef.current?.focus({ preventScroll: true });
         }
       }
     };
@@ -66,21 +66,23 @@ function Header() {
     ['#faq', 'សំណួរញឹកញាប់'],
   ];
   return (
-    <header className="site-header">
-      <div className="container header-inner">
-        <Link to="/" className="brand" aria-label="THE WOFT ទំព័រដើម" onClick={() => setOpen(false)}>
-          <span className="brand-mark"><Code2 size={19} strokeWidth={2.3} /></span>
-          <span>THE <strong>WOFT</strong><small>SOFTWARE & DIGITAL</small></span>
-        </Link>
-        <nav id="mobile-navigation" className={open ? 'nav-links is-open' : 'nav-links'} aria-label="Main navigation">
-          {nav.map(([href, label], index) => <Link key={href} ref={index === 0 ? firstMenuLinkRef : undefined} to={`/${href}`} onClick={() => setOpen(false)}>{label}</Link>)}
-          <Link ref={lastMenuLinkRef} className="mobile-contact" to="/#contact" onClick={() => setOpen(false)}>ពិភាក្សាគម្រោង <ArrowUpRight size={17} /></Link>
-        </nav>
-        <Link className="button button-small button-outline header-cta" to="/#contact">ពិភាក្សាគម្រោង <ArrowUpRight size={17} /></Link>
-        <button ref={menuButtonRef} className="menu-toggle" type="button" aria-label={open ? 'បិទម៉ឺនុយ' : 'បើកម៉ឺនុយ'} aria-controls="mobile-navigation" aria-expanded={open} onClick={() => setOpen(v => !v)}>{open ? <X size={24} /> : <Menu size={24} />}</button>
-      </div>
-      {open && <button className="nav-backdrop" type="button" tabIndex={-1} aria-label="បិទម៉ឺនុយ" onClick={() => { setOpen(false); menuButtonRef.current?.focus(); }} />}
-    </header>
+    <>
+      <header className="site-header">
+        <div className="container header-inner">
+          <Link to="/" className="brand" aria-label="THE WOFT ទំព័រដើម" onClick={() => setOpen(false)}>
+            <span className="brand-mark"><Code2 size={19} strokeWidth={2.3} /></span>
+            <span>THE <strong>WOFT</strong><small>SOFTWARE & DIGITAL</small></span>
+          </Link>
+          <nav id="mobile-navigation" className={open ? 'nav-links is-open' : 'nav-links'} aria-label="Main navigation">
+            {nav.map(([href, label], index) => <Link key={href} ref={index === 0 ? firstMenuLinkRef : undefined} to={`/${href}`} onClick={() => setOpen(false)}>{label}</Link>)}
+            <Link ref={lastMenuLinkRef} className="mobile-contact" to="/#contact" onClick={() => setOpen(false)}>ពិភាក្សាគម្រោង <ArrowUpRight size={17} /></Link>
+          </nav>
+          <Link className="button button-small button-outline header-cta" to="/#contact">ពិភាក្សាគម្រោង <ArrowUpRight size={17} /></Link>
+          <button ref={menuButtonRef} className="menu-toggle" type="button" aria-label={open ? 'បិទម៉ឺនុយ' : 'បើកម៉ឺនុយ'} aria-controls="mobile-navigation" aria-expanded={open} onClick={() => setOpen(v => !v)}>{open ? <X size={24} /> : <Menu size={24} />}</button>
+        </div>
+      </header>
+      {open && <button className="nav-backdrop" type="button" tabIndex={-1} aria-label="បិទម៉ឺនុយ" onClick={() => { setOpen(false); menuButtonRef.current?.focus({ preventScroll: true }); }} />}
+    </>
   );
 }
 
@@ -197,6 +199,47 @@ function Footer() {
   return <footer className="footer"><div className="container footer-main"><div><Link to="/" className="footer-brand">THE <strong>WOFT</strong><span>SOFTWARE & DIGITAL SOLUTIONS</span></Link><p>បង្កើតដំណោះស្រាយឌីជីថលដែលងាយប្រើ<br />និងសមនឹងអាជីវកម្មរបស់អ្នក។</p></div><div className="footer-links"><span>EXPLORE</span><Link to="/#services">សេវាកម្ម</Link><Link to="/#work">គំរូកម្មវិធី</Link><Link to="/#process">របៀបធ្វើការ</Link></div><div className="footer-links"><span>INFORMATION</span><Link to="/#faq">សំណួរញឹកញាប់</Link><Link to="/#contact">រៀបចំសំណើ</Link><a href={publicAsset('quotation-poster.png')} target="_blank" rel="noopener noreferrer">ផ្ទាំងតម្លៃដើម</a></div></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} THE WOFT. ALL RIGHTS RESERVED.</span><span>DEVELOP · INNOVATE · DELIVER</span></div></footer>;
 }
 
+function MobileTabBar() {
+  const { pathname } = useLocation();
+  const [active, setActive] = useState('top');
+
+  useEffect(() => {
+    if (pathname !== '/') return;
+    let frame = 0;
+    const update = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        let current = 'top';
+        for (const id of ['services', 'work', 'contact']) {
+          const section = document.getElementById(id);
+          if (section && section.getBoundingClientRect().top <= window.innerHeight * 0.4) current = id;
+        }
+        setActive(current);
+      });
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, [pathname]);
+
+  const current = pathname === '/' ? active : pathname.startsWith('/work/') ? 'work' : 'top';
+  const tabs = [
+    { id: 'top', label: 'ទំព័រដើម', icon: House },
+    { id: 'services', label: 'សេវាកម្ម', icon: Layers3 },
+    { id: 'work', label: 'គំរូ', icon: Grid2X2 },
+    { id: 'contact', label: 'ទំនាក់ទំនង', icon: Send },
+  ];
+
+  return <nav className="mobile-tab-bar" aria-label="ការរុករកសម្រាប់ទូរស័ព្ទ">
+    {tabs.map(({ id, label, icon: Icon }) => <Link key={id} to={`/#${id}`} className={current === id ? 'is-current' : ''} aria-current={current === id ? 'location' : undefined}><Icon size={21} strokeWidth={current === id ? 2.3 : 1.9} /><span>{label}</span></Link>)}
+  </nav>;
+}
+
 function HomePage() {
   return <><Hero /><Services /><Work /><Process /><Terms /><FAQ /><InquiryForm /></>;
 }
@@ -210,5 +253,5 @@ function ProjectPage() {
 }
 
 export default function App() {
-  return <><ScrollManager /><Header /><Routes><Route path="/" element={<HomePage />} /><Route path="/work/:slug" element={<ProjectPage />} /><Route path="*" element={<main className="not-found container"><h1>រកមិនឃើញទំព័រនេះទេ</h1><Link to="/" className="button button-dark">ត្រឡប់ទៅទំព័រដើម <ArrowRight size={18} /></Link></main>} /></Routes><Footer /></>;
+  return <><ScrollManager /><Header /><Routes><Route path="/" element={<HomePage />} /><Route path="/work/:slug" element={<ProjectPage />} /><Route path="*" element={<main className="not-found container"><h1>រកមិនឃើញទំព័រនេះទេ</h1><Link to="/" className="button button-dark">ត្រឡប់ទៅទំព័រដើម <ArrowRight size={18} /></Link></main>} /></Routes><Footer /><MobileTabBar /></>;
 }
